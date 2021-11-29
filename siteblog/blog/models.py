@@ -70,3 +70,19 @@ class Post(models.Model):
         verbose_name_plural = "Посты"
         ordering = ['-created_at']
 
+
+class Zastavka(models.Model):
+    foto = models.ImageField(upload_to='zastavka', blank=True, verbose_name='Картинка')
+    nazvanie = models.CharField(max_length=50, verbose_name='Название')
+    opisanie = models.CharField(max_length=150, verbose_name='Описание')
+
+    def __str__(self):
+        return self.nazvanie
+
+    # def get_absolute_url(self):
+    #     return reverse('zastavka', kwargs={'slug': self.slug})
+    #
+    class Meta:
+        verbose_name = 'Заставка'
+        verbose_name_plural = "Заставки"
+        # ordering = ['nazvanie']

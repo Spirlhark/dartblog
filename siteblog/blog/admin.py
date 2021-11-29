@@ -40,6 +40,20 @@ class TagAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     list_display = ('title',)
 
+class ZastavkaAdmin(admin.ModelAdmin):
+    list_display = ('get_foto', 'nazvanie', 'opisanie')
+    # list_display = ('foto', 'nazvanie', 'opisanie')
+    list_display_links = ('nazvanie',)
+
+
+    def get_foto(self, obj):
+        if obj.foto:
+            return mark_safe(f'<img src="{obj.foto.url}" width="50">')
+        else:
+            return '-'
+
+
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Post, PostAdmin)
+admin.site.register(Zastavka, ZastavkaAdmin)

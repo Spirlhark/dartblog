@@ -85,7 +85,7 @@
 }
 
 .wrapper section.bg-text-area .bg-text {
-    background-image: url(img/bg-iamges.jpg);
+    background-image: url(img/bg-imagess.jpg);
     background-size: 100% 100%;
     padding: 205px 280px;
 }
@@ -749,9 +749,4 @@ section.blog-post-area h4 span.author-name {
     font-family: Geometria;
     font-size: 15px;
     font-weight: 500;
-}
-
-.grid .portfolio-item img{
-    width: 200px;
-    height: auto;
 }

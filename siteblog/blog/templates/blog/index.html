@@ -1,22 +1,12 @@
 {% extends 'base.html' %}
-{% load static %}
+<!--{% load static %}-->
 
 {% block title %}{{ title }} :: {{ block.super}}{% endblock %}
 
 {% block content %}
 
-<section class="bg-text-area">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="bg-text">
-                    <h3>Удивительная наука астрофизика</h3>
-                    <p>Астрофи́зика — раздел астрономии, использующий принципы физики и химии, который изучает физические процессы в астрономических объектах, таких как звёзды, галактики, экзопланеты </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+
+{% include 'inc/_zastavka.html' %}
 <section class="blog-post-area">
     <div class="container">
         <div class="row">
@@ -67,6 +57,9 @@
     {% if page_obj.has_other_pages %}
     <div class="pegination">
         <div class="nav-links">
+            {% if page_obj.has_previous %}
+            <a class="page-numbers" href="?page={{ page_odj.previous_page_number }}"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+            {% endif %}
 
             {% for p in page_obj.paginator.page_range %}
                 {% if page_obj.number == p %}

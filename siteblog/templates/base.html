@@ -1,3 +1,4 @@
+<!--123-->
 <!DOCTYPE html>
 {% load static %}
 {% load cache %}
@@ -26,6 +27,8 @@
         {% cache 20 header %}
         {% include 'inc/_header.html' %}
         {% endcache %}
+
+<!--        {% include 'inc/_zastavka.html' %}-->
 
         {% block content %}{% endblock %}
 

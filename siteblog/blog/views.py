@@ -71,3 +71,15 @@ class Search(ListView):
         context = super().get_context_data()
         context['s'] = f"s={self.request.GET.get('s')}&"
         return context
+
+
+# def index(request):
+#     zastavka = Zastavka.objects.get(id=1)
+#     return render(request, 'blog/index.html', {'zAsTaVkA': zastavka,)
+
+
+def zastavka(request):
+    zastavka = Zastavka.objects.all()
+    return render(request, 'blog/zastavka.html', {'zAsTaVkA': zastavka, 'nazvanie': 'Заставка'})
+
+
