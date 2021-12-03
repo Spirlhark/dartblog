@@ -1,6 +1,9 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView
 from .models import *
+from .forms import ContactForm, ContactEmail
+from .service import send
 from django.db.models import F
 
 
@@ -82,4 +85,32 @@ def zastavka(request):
     zastavka = Zastavka.objects.all()
     return render(request, 'blog/zastavka.html', {'zAsTaVkA': zastavka, 'nazvanie': 'Заставка'})
 
+#
+# def contact(request):
+#     return render(request, 'blog/contact.html')
 
+
+class ContactView(CreateView):
+    """Отображение формы подписки по email"""
+    model = Contact
+    form_class = ContactForm
+    success_url = '/'
+    template_name = 'blog/contact.html'
+
+    def form_valid(self, form):
+        form.save()
+        send(form.instance.email)
+        # send_spam_email.delay(form.instance.email)
+        return super().form_valid(form)
+
+
+def send_email(request):
+    if request.method == 'POST':
+        form = ContactEmail(request.POST)
+        if form.is_valid():
+            Contact.objects.create(**form.cleaned_data)
+            # print(form.cleaned_data)
+            return redirect('home')
+    else:
+        form = ContactEmail()
+    return render(request, 'blog/send_email.html', {'form': form})

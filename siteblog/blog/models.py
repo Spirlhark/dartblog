@@ -86,3 +86,13 @@ class Zastavka(models.Model):
         verbose_name = 'Заставка'
         verbose_name_plural = "Заставки"
         # ordering = ['nazvanie']
+
+
+class Contact(models.Model):
+    """Подписка на email"""
+    name = models.CharField(max_length=30, blank=True)
+    email = models.EmailField(max_length=50)
+
+    def __str__(self):
+        return self.name
+

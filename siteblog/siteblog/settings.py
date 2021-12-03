@@ -214,3 +214,11 @@ CACHES = {
         'LOCATION': os.path.join(BASE_DIR, 'django_cache'),
     }
 }
+
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'x.spirlhark.x@gmail.com'
+EMAIL_HOST_PASSWORD = 'anafema123'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False

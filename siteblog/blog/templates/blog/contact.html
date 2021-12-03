@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Подписка</title>
+</head>
+<body>
+
+<div class="newsletter">
+    <h2 class="sidebar-title">Подписывайтесь на новые новости</h2>
+    <form action="{% url 'contact' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Подписаться">
+    </form>
+</div>
+
+</body>
+</html>

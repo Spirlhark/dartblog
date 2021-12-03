@@ -11,4 +11,6 @@ urlpatterns = [
     path('post/<str:slug>/', GetPost.as_view(), name='post'),
     path('search/', Search.as_view(), name='search'),
     path('zastavka/', zastavka),
+    path('send_email/', send_email, name='send_email'),
+    path('contact/', ContactView.as_view(), name='contact'),
 ]
