@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic.edit import FormMixin
+from .tasks import send_spam_email
 from .models import *
-from .forms import ContactForm, ContactEmail
+from .forms import ContactForm
 from .service import send
 from django.db.models import F
 
@@ -49,8 +51,9 @@ class PostByTag(ListView):
         return context
 
 
-class GetPost(DetailView):
+class GetPost(FormMixin, DetailView):
     model = Post
+    form_class = ContactForm
     template_name = 'blog/single.html'
     context_object_name = 'post'
 
@@ -95,22 +98,22 @@ class ContactView(CreateView):
     model = Contact
     form_class = ContactForm
     success_url = '/'
-    template_name = 'blog/contact.html'
+    template_name = 'blog/single.html'
 
     def form_valid(self, form):
         form.save()
-        send(form.instance.email)
-        # send_spam_email.delay(form.instance.email)
+        # send(form.instance.email)
+        send_spam_email.delay(form.instance.email)
         return super().form_valid(form)
 
 
-def send_email(request):
-    if request.method == 'POST':
-        form = ContactEmail(request.POST)
-        if form.is_valid():
-            Contact.objects.create(**form.cleaned_data)
-            # print(form.cleaned_data)
-            return redirect('home')
-    else:
-        form = ContactEmail()
-    return render(request, 'blog/send_email.html', {'form': form})
+# def send_email(request):
+#     if request.method == 'POST':
+#         form = ContactEmail(request.POST)
+#         if form.is_valid():
+#             Contact.objects.create(**form.cleaned_data)
+#             # print(form.cleaned_data)
+#             return redirect('home')
+#     else:
+#         form = ContactEmail()
+#     return render(request, 'blog/send_email.html', {'form': form})

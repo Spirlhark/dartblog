@@ -9,7 +9,7 @@ class ContactForm(forms.ModelForm):
         fields = '__all__'
 
 
-class ContactEmail(forms.Form):
-    name = forms.CharField(max_length=30, label='Имя', required=False)
-    email = forms.EmailField(max_length=50, label='Почта')
+# class ContactEmail(forms.Form):
+#     name = forms.CharField(max_length=30, label='Имя', required=False)
+#     email = forms.EmailField(max_length=50, label='Почта')
 

@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  web: &web
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/siteblog
+    ports:
+      - 8000:8000
+    depends_on:
+      - redis
+  celery:
+    <<: *web
+    image: celery
+    command: celery -A siteblog worker -l info
+    volumes:
+      - .:/usr/src/siteblog:z
+    ports: [ ]
+    depends_on:
+      - redis
+      - web
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
