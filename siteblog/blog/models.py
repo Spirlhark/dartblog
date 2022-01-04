@@ -92,7 +92,8 @@ class Contact(models.Model):
     """Подписка на email"""
     name = models.CharField(max_length=30, blank=True)
     email = models.EmailField(max_length=50)
+    # last_send = models.DateTimeField(auto_now=True, verbose_name='Последняя рассылка')
 
     def __str__(self):
-        return self.name
+        return self.email
 
