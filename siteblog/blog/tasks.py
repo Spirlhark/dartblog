@@ -19,8 +19,8 @@ def send_beat_email():
     new_posts = Post.objects.filter(created_at__date__gte=cache.get('last_send') or datetime.date.today())
     cache.set('last_send', datetime.date.today(), None)
     [send_mail(
-        'Для наших подписчиков',
-        'У нас новые пост(ы): {0}'.format(list(new_posts)),
+        'У нас новые посты',
+        'http://127.0.0.1:8000/post/{0}/'.format(x.slug),
         'x.Spirlhark.x@gmail.com',
         [contact.email],
-        fail_silently=False,)for contact in Contact.objects.all() if len(new_posts) != 0]
+        fail_silently=False,)for x in new_posts for contact in Contact.objects.all() if len(new_posts) != 0]
