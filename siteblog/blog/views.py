@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import FormMixin
 from .tasks import send_spam_email
 from .models import *
-from .forms import ContactForm
+from .forms import ContactForm, ReviewForm
 from .service import send
 from django.db.models import F
 
@@ -107,13 +108,14 @@ class ContactView(CreateView):
         return super().form_valid(form)
 
 
-# def send_email(request):
-#     if request.method == 'POST':
-#         form = ContactEmail(request.POST)
-#         if form.is_valid():
-#             Contact.objects.create(**form.cleaned_data)
-#             # print(form.cleaned_data)
-#             return redirect('home')
-#     else:
-#         form = ContactEmail()
-#     return render(request, 'blog/send_email.html', {'form': form})
+class AddReview(View):
+    """Коментарии"""
+    def post(self, request, pk):
+        print(request.POST)
+        form = ReviewForm(request.POST)
+        post = Post.objects.get(id=pk)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.post = post
+            form.save()
+        return redirect(post.get_absolute_url())

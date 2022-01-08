@@ -1,5 +1,5 @@
 from django import forms
-from .models import Contact
+from .models import Contact, Reviews
 
 
 class ContactForm(forms.ModelForm):
@@ -7,6 +7,14 @@ class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact
         fields = '__all__'
+
+
+class ReviewForm(forms.ModelForm):
+    """Форма отзывов"""
+    class Meta:
+        model = Reviews
+        fields = ('name', 'email', 'text')
+
 
 
 # class ContactEmail(forms.Form):

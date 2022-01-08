@@ -1,4 +1,5 @@
 import datetime
+from django.core.cache import cache
 from .models import *
 from django.core.mail import send_mail
 from siteblog.celery import app
@@ -11,32 +12,15 @@ def send_spam_email(user_email):
     send(user_email)
 
 
-# @app.task
-# def send_new_posts():
-#     today = datetime.date.today()
-#     new_posts = Post.objects.filter(created_at__date=today)
-#     post_new_list = list(new_posts)    .format(post_new_list)
-#     for contact in Contact.objects.all():
-#         send_mail(
-#             'Для наших подписчиков'
-#             'У нас новые пост(ы): {0}',
-#             'x.Spirlhark.x@gmail.com'
-#             [contact.email],
-#             fail_silently=False,
-#         )
-
-
 @app.task
 def send_beat_email():
-    today = datetime.date.today()
-    new_posts = Post.objects.filter(created_at__date=today)
-    post_new_list = list(new_posts)
-    if len(post_new_list) != 0:
-        for user in Contact.objects.all():
-            send_mail(
-                'Вы подписаны на рассылку',
-                'У нас новые пост(ы): {0}'.format(post_new_list),
-                'x.spirlhark.x@gmail.com',
-                [user.email],
-                fail_silently=False,
-            )
+    new_posts = Post.objects.filter(created_at__date__gte=cache.get('last_send') or datetime.date.today())
+    cache.set('last_send', datetime.date.today(), None)
+    new_post_links = ['http://127.0.0.1:8000/post/{0}/'.format(x.slug)+'\n' for x in new_posts]
+    msg = '\n'.join(new_post_links)
+    [send_mail(
+        'У нас новые посты',
+        msg,
+        'x.Spirlhark.x@gmail.com',
+        [contact.email],
+        fail_silently=False,) for contact in Contact.objects.all() if len(new_posts) != 0]

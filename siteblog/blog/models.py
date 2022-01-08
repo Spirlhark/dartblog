@@ -97,3 +97,20 @@ class Contact(models.Model):
     def __str__(self):
         return self.email
 
+
+class Reviews(models.Model):
+    """Отзывы"""
+    email = models.EmailField()
+    name = models.CharField("Имя", max_length=100)
+    text = models.TextField("Коментарий", max_length=5000)
+    parent = models.ForeignKey(
+        'self', verbose_name="Родитель", on_delete=models.SET_NULL, blank=True, null=True
+    )
+    post = models.ForeignKey(Post, verbose_name="Пост", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.name} - {self.post}"
+
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
