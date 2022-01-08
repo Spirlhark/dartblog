@@ -13,4 +13,5 @@ urlpatterns = [
     path('zastavka/', zastavka),
     # path('send_email/', send_email, name='send_email'),
     path('contact/', ContactView.as_view(), name='contact'),
+    path('review/<int:pk>/', AddReview.as_view(), name='add_comment'),
 ]

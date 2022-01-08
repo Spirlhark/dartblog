@@ -5,8 +5,10 @@ from django.utils.safestring import mark_safe
 
 from .models import *
 
+
 class PostAdminForm(forms.ModelForm):
     content = forms.CharField(widget=CKEditorUploadingWidget())
+
     class Meta:
         model = Post
         fields = '__all__'
@@ -36,15 +38,16 @@ class PostAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
+
 class TagAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     list_display = ('title',)
+
 
 class ZastavkaAdmin(admin.ModelAdmin):
     list_display = ('get_foto', 'nazvanie', 'opisanie')
     # list_display = ('foto', 'nazvanie', 'opisanie')
     list_display_links = ('nazvanie',)
-
 
     def get_foto(self, obj):
         if obj.foto:
@@ -58,7 +61,12 @@ class ContactAdmin(admin.ModelAdmin):
     list_display = ('name', 'email')
 
 
+class ReviewsAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'text')
+
+
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(Zastavka, ZastavkaAdmin)
+admin.site.register(Reviews, ReviewsAdmin)
